@@ -1,30 +1,23 @@
-# coding: utf-8
-from sqlalchemy import Column, Integer, Table, Text
-from sqlalchemy.sql.sqltypes import NullType
+from sqlalchemy import Boolean, Column, SmallInteger, Text
 from sqlalchemy.ext.declarative import declarative_base
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy as flask_sqlalchemy
 import flask_restless
 
+
 Base = declarative_base()
 metadata = Base.metadata
 
 
-t_sqlite_sequence = Table(
-    'sqlite_sequence', metadata,
-    Column('name', NullType),
-    Column('seq', NullType)
-)
-
-
 class Task(Base):
     __tablename__ = 'tasks'
+    __table_args__ = {'schema': 'tasks'}
 
-    key = Column(Integer, primary_key=True)
+    key = Column(SmallInteger, primary_key=True)
     title = Column(Text, nullable=False)
     description = Column(Text)
-    done = Column(Integer, nullable=False)
+    done = Column(Boolean, nullable=False)
 
 
 """
@@ -38,7 +31,7 @@ def create_api():
     # Create the Flask application and the Flask-SQLAlchemy object.
     app = Flask(__name__)
     app.config['DEBUG'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/task.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruben:@localhost/ruben'
     db = flask_sqlalchemy(app)
 
     # Create the database tables. Not necessary this time because they are already created
@@ -52,8 +45,7 @@ def create_api():
     manager.create_api(Task, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
     # start the flask loop
-    app.run(port=9000)
-    # http://localhost:5000/api/tasks
+    app.run(port=8888)
 
 
 create_api()
