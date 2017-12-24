@@ -1,13 +1,14 @@
 from sqlalchemy import Boolean, Column, SmallInteger, Text
 from sqlalchemy.ext.declarative import declarative_base
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy as flask_sqlalchemy
 import flask_restless
 
 
 Base = declarative_base()
 metadata = Base.metadata
+app = Flask(__name__)
 
 
 class Task(Base):
@@ -29,7 +30,6 @@ Flask API
 
 def create_api():
     # Create the Flask application and the Flask-SQLAlchemy object.
-    app = Flask(__name__)
     app.config['DEBUG'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruben:@localhost/ruben'
     db = flask_sqlalchemy(app)
@@ -44,8 +44,13 @@ def create_api():
     # default. Allowed HTTP methods can be specified as well.
     manager.create_api(Task, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
+
+def create_routes():
+    @app.route('/tasks/')
+    def all_tasks():
+        return render_template('index.html')
+
+
+def start_app():
     # start the flask loop
-    app.run(port=8888)
-
-
-create_api()
+    app.run(port=8889)
