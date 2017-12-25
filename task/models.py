@@ -17,7 +17,6 @@ class Task(Base):
 
     key = Column(SmallInteger, primary_key=True)
     title = Column(Text, nullable=False)
-    description = Column(Text)
     done = Column(Boolean, nullable=False)
 
 

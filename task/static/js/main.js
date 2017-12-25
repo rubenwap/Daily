@@ -4,19 +4,7 @@ async function fetchAsync(url) {
     return await response.json();
 }
 
-let insertTask = (title, description) => {
-
-    let newtask = {
-        "data": {
-
-            "type": "tasks",
-            "attributes": {
-                "description": description,
-                "title": title,
-                "done": false
-            }
-        }
-    }
+let insertTask = (title) => {
 
     fetch('../api/tasks', {
 
@@ -25,7 +13,15 @@ let insertTask = (title, description) => {
             "Content-Type": "application/vnd.api+json",
             "Accept": "application/vnd.api+json"
         },
-        body: JSON.stringify(newtask)
+        body: JSON.stringify({
+            "data": {
+                "type": "tasks",
+                "attributes": {
+                    "title": title,
+                    "done": false
+                }
+            }
+        })
     })
         .then(showAll())
         .catch(reason => console.log(reason.message))
@@ -34,13 +30,24 @@ let insertTask = (title, description) => {
 
 
 let editTask = () => { };
-let deleteTask = () => { };
+
+let deleteTask = () => {
+
+    let idToDelete = e.target.parentNode.id;
+
+    fetch(`../api/tasks/${idToDelete}`, {
+        method: 'DELETE'
+    }
+    ).then(showAll())
+};
+
+
 let completeTask = () => { };
 
 let buildList = (data) => {
     document.querySelector("#currentTasks").innerHTML = ""
     data.data.forEach(function (element) {
-        document.querySelector("#currentTasks").innerHTML += "<br>" + element.attributes.title
+        document.querySelector("#currentTasks").innerHTML += `<div class='taskItem' id='${element.attributes.key}'><input type='checkbox'>${element.attributes.title}<button class="edit">Edit</button><button class="delete">Delete</button></div>`
     });
 
 }
@@ -52,18 +59,26 @@ let showAll = () => {
 };
 
 
-let main = () => {
+let initApp = () => {
+
     showAll();
 
     document.querySelector("#submitNew").addEventListener("click", function () {
         let title = document.querySelector("#newTask").value;
-        let description = document.querySelector("#descNewTask").value;
-        insertTask(title, description)
-
+        insertTask(title)
     });
+
+
+    document.querySelector("#currentTasks").addEventListener("click", function (e) {
+        // e.target was the clicked element
+        if (e.target && e.target.matches(".delete")) {
+            deleteTask();
+        }
+    });
+
 
 }
 
 
-document.addEventListener('DOMContentLoaded', main, false);
+document.addEventListener('DOMContentLoaded', initApp, false);
 
