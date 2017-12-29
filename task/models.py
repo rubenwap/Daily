@@ -41,7 +41,7 @@ def create_api():
 
     # Create API endpoints, which will be available at /api/<tablename> by
     # default. Allowed HTTP methods can be specified as well.
-    manager.create_api(Task, methods=['GET', 'POST', 'DELETE', 'PUT'])
+    manager.create_api(Task, methods=['GET', 'POST', 'DELETE', 'PATCH'])
 
 
 def create_routes():
