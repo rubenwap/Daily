@@ -9,17 +9,14 @@ let insertTask = (title) => {
 
 		method: 'POST',
 		headers: {
-			"Content-Type": "application/vnd.api+json",
-			"Accept": "application/vnd.api+json"
+			"Content-Type": "application/json",
+			"Accept": "application/json"
 		},
 		body: JSON.stringify({
-			"data": {
-				"type": "tasks",
-				"attributes": {
-					"title": title,
-					"done": false
-				}
-			}
+
+			"title": title,
+			"done": false
+
 		})
 	})
 		.then(showAll())
@@ -42,25 +39,19 @@ let saveEditedTask = (task) => {
 	fetch(`../api/tasks/${task.id}`, {
 		method: 'PATCH',
 		headers: {
-			"Content-Type": "application/vnd.api+json",
-			"Accept": "application/vnd.api+json"
+			"Content-Type": "application/json",
+			"Accept": "application/json"
 		},
 		body: JSON.stringify({
-			"data": {
-				"type": "tasks",
-				"id": task.id.toString(),
-				"attributes": {
-					"title": task.getElementsByClassName("editableTask")[0].value
-				}
-			}
+
+			"title": task.getElementsByClassName("editableTask")[0].value
+
 		})
-	}).then(showAll())
+
+	}).then(showAll());
 }
 
-
-let deleteTask = () => {
-
-	let idToDelete = e.target.parentNode.id;
+let deleteTask = (idToDelete) => {
 
 	fetch(`../api/tasks/${idToDelete}`, {
 		method: 'DELETE'
@@ -68,14 +59,40 @@ let deleteTask = () => {
 	).then(showAll())
 };
 
+let completeTask = (id, status) => {
 
-let completeTask = () => { };
+	console.log(id);
+	console.log(status);
+
+	fetch(`../api/tasks/${id}`, {
+		method: 'PATCH',
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		},
+		body: JSON.stringify({
+
+			"done": status
+
+		})
+
+	}).then(showAll());
+
+
+};
 
 
 let buildList = (data) => {
 	document.querySelector("#currentTasks").innerHTML = ""
-	data.data.forEach(function (element) {
-		document.querySelector("#currentTasks").innerHTML += `<div class='taskItem' id='${element.attributes.key}'><input type='checkbox'><span class="taskTitle">${element.attributes.title}</span><button class="save" style="display:none;">Save</button><button class="edit">Edit</button><button class="delete">Delete</button></div>`
+	data.objects.forEach(function (element) {
+		console.log(element);
+		if (element.done == true) {
+			status = "checked";
+		} else {
+			status = "";
+		}
+		document.querySelector("#currentTasks").innerHTML += `<div class='taskItem' id='${element.key}'><input type='checkbox' class='status' ${status}><span class="taskTitle">${element.title}</span><button class="save" style="display:none;">Save</button><button class="edit">Edit</button><button class="delete">Delete</button></div>`;
+
 	});
 
 }
@@ -100,7 +117,7 @@ let initApp = () => {
 	document.querySelector("#currentTasks").addEventListener("click", function (e) {
 
 		if (e.target && e.target.matches(".delete")) {
-			deleteTask();
+			deleteTask(e.target.parentNode.id);
 		}
 
 		if (e.target && e.target.matches(".edit")) {
@@ -109,6 +126,10 @@ let initApp = () => {
 
 		if (e.target && e.target.matches(".save")) {
 			saveEditedTask(e.target.parentNode);
+		}
+
+		if (e.target && e.target.matches(".status")) {
+			completeTask(e.target.parentNode.id, e.target.checked);
 		}
 
 	});
