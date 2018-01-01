@@ -52,4 +52,4 @@ def create_routes():
 
 def start_app():
     # start the flask loop
-    app.run(port=8889)
+    app.run(host='0.0.0.0')
