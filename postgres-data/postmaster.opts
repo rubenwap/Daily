@@ -1,1 +1,0 @@
-/Applications/Postgres.app/Contents/Versions/10/bin/postgres "-D" "/Users/ruben/Code/Daily/postgres-data" "-p" "5432"

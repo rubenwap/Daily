@@ -5,6 +5,8 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy as flask_sqlalchemy
 import flask_restless
 
+import os
+
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -30,7 +32,7 @@ Flask API
 def create_api():
     # Create the Flask application and the Flask-SQLAlchemy object.
     app.config['DEBUG'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruben:@daily_database_1/ruben'
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ruben:@daily_database_1/ruben"
     db = flask_sqlalchemy(app)
 
     # Create the database tables. Not necessary this time because they are already created

@@ -106,5 +106,5 @@ ENV/
 .vscode/
 daily/
 __pycache__/
-postgresql/Dockerfile
+postgres-data/
 .env

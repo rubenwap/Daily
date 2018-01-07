@@ -10,11 +10,16 @@ services:
       - database
   database:
     image: postgres:9
-    env_file: .env
+    
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_USER: ruben
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: ruben
+      PGDATA: /tmp
 
 
       
