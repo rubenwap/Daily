@@ -30,11 +30,11 @@ Flask API
 def create_api():
     # Create the Flask application and the Flask-SQLAlchemy object.
     app.config['DEBUG'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruben:@localhost/ruben'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ruben:@daily_database_1/ruben'
     db = flask_sqlalchemy(app)
 
     # Create the database tables. Not necessary this time because they are already created
-    # db.create_all()
+    db.create_all()
 
     # Create the Flask-Restless API manager.
     manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)

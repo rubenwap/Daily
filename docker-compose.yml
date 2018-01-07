@@ -1,0 +1,20 @@
+version: '2'
+services:
+  flaskapp:
+    build: ./web
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./web:/usr/src/daily
+    depends_on:
+      - database
+  database:
+    image: postgres:9
+    env_file: .env
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
+      

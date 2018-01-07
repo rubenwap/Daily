@@ -107,3 +107,4 @@ ENV/
 daily/
 __pycache__/
 postgresql/Dockerfile
+.env
