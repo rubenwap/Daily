@@ -108,11 +108,18 @@ let initApp = () => {
 
 	showAll();
 
-	document.querySelector("#submitNew").addEventListener("click", function () {
+	document.querySelector("#submitNew").addEventListener("click", function (event) {
 		let title = document.querySelector("#newTask").value;
 		insertTask(title)
 	});
 
+	document.querySelector("#newTask").addEventListener("keyup", function (event) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			let title = document.querySelector("#newTask").value;
+			insertTask(title)
+		}
+	});
 
 	document.querySelector("#currentTasks").addEventListener("click", function (e) {
 
