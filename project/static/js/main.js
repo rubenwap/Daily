@@ -24,7 +24,6 @@ let insertTask = (title) => {
 
 };
 
-
 let editTask = (task) => {
 	currentTask = task.getElementsByClassName("taskTitle")[0];
 	titleValue = currentTask.innerText;
@@ -32,7 +31,6 @@ let editTask = (task) => {
 	task.getElementsByClassName("edit")[0].style.display = "none";
 	task.getElementsByClassName("save")[0].style.display = "inline";
 };
-
 
 let saveEditedTask = (task) => {
 
@@ -141,7 +139,6 @@ let initApp = () => {
 
 	});
 }
-
 
 document.addEventListener('DOMContentLoaded', initApp, false);
 

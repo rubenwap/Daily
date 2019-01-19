@@ -108,3 +108,4 @@ daily/
 __pycache__/
 postgres-data/
 .env
+api*.json
