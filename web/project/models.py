@@ -32,7 +32,7 @@ Flask API
 def create_api():
     # Create the Flask application and the Flask-SQLAlchemy object.
     app.config['DEBUG'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ruben:@localhost/ruben"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:@localhost/tasks"
     db = flask_sqlalchemy(app)
 
     # Create the database tables. Not necessary this time because they are already created
